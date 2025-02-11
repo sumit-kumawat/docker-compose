@@ -1,11 +1,16 @@
 # Docker + Docker Compose Installation Script
 
 ## Overview
-This script automates the installation of Docker and Docker Compose on Ubuntu. It installs the required dependencies, adds the official Docker repository, installs Docker Engine, and fetches the latest version of Docker Compose from GitHub.
+This script automates the installation of Docker and Docker Compose on various Linux distributions, including:
+
+- Ubuntu/Debian
+- RHEL/CentOS/Fedora
+- SUSE/OpenSUSE
 
 ## Prerequisites
-- A machine running **Ubuntu** (tested on Ubuntu 20.04/22.04)
+- A supported Linux distribution (Ubuntu, Debian, RHEL, CentOS, Fedora, SUSE, OpenSUSE)
 - Root or sudo privileges
+- Internet access to download the necessary packages
 
 ## Installation Steps
 1. **Download the script**:
@@ -40,9 +45,10 @@ docker-compose --version
 
 ## Troubleshooting
 If you face any issues:
-- Ensure your system is updated: `sudo apt update && sudo apt upgrade -y`
-- Check Docker service status: `sudo systemctl status docker`
-- Restart Docker if needed: `sudo systemctl restart docker`
+
+- Ensure your system is updated: sudo apt update && sudo apt upgrade -y (for Ubuntu/Debian) or yum update -y (for RHEL/CentOS/Fedora) or zypper update -y (for SUSE/OpenSUSE)
+- Check Docker service status: sudo systemctl status docker
+- Restart Docker if needed: sudo systemctl restart docker
 
 ## License
 This script is open-source. You can modify and distribute it freely.
