@@ -1,4 +1,4 @@
-# Docker Installation Script
+# Docker + Docker Compose Installation Script
 
 ## Overview
 This script automates the installation of Docker and Docker Compose on Ubuntu. It installs the required dependencies, adds the official Docker repository, installs Docker Engine, and fetches the latest version of Docker Compose from GitHub.
