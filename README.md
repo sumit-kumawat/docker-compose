@@ -10,7 +10,7 @@ This script automates the installation of Docker and Docker Compose on Ubuntu. I
 ## Installation Steps
 1. **Download the script**:
    ```bash
-   curl -O https://raw.githubusercontent.com/sumit-kumawat/docker-compose/install_docker.sh
+   curl -O curl -O https://raw.githubusercontent.com/sumit-kumawat/docker-compose/main/install_docker.sh
    ```
 2. **Make the script executable**:
    ```bash
