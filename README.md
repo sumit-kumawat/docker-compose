@@ -13,19 +13,13 @@ This script automates the installation of Docker and Docker Compose on various L
 - Internet access to download the necessary packages
 
 ## Installation Steps
-1. **Download the script**:
+**Download the script**:
    ```bash
    curl -O https://raw.githubusercontent.com/sumit-kumawat/docker-compose/main/install_docker.sh
-   ```
-2. **Make the script executable**:
-   ```bash
    chmod +x install_docker.sh
-   ```
-3. **Run the script with sudo**:
-   ```bash
    sudo bash install_docker.sh
    ```
-
+   
 ## What This Script Does
 - Installs necessary dependencies (`apt-transport-https`, `ca-certificates`, `curl`, `software-properties-common`).
 - Adds the Docker official GPG key and repository.
@@ -38,8 +32,6 @@ This script automates the installation of Docker and Docker Compose on various L
 After the script runs, you can check the installed versions:
 ```bash
 docker --version
-```
-```bash
 docker-compose --version
 ```
 
