@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Detect the OS
 if [ -f /etc/os-release ]; then
     . /etc/os-release
@@ -15,7 +17,7 @@ echo "Detected OS: $OS"
 case "$OS" in
     ubuntu|debian)
         echo "Installing dependencies for Ubuntu/Debian..."
-        apt update && apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg
+        apt update && apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
         ;;
     rhel|centos|fedora)
         echo "Installing dependencies for RHEL/CentOS/Fedora..."
@@ -57,14 +59,37 @@ systemctl enable --now docker
 
 # Install Docker Compose
 echo "Installing Docker Compose..."
-DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d '"' -f 4)
-curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+
+# Try Docker Compose v2 plugin
+if docker --version &>/dev/null && docker compose version &>/dev/null; then
+    echo "Docker Compose v2 plugin is already available."
+else
+    echo "Installing Docker Compose plugin..."
+    mkdir -p /usr/libexec/docker/cli-plugins
+    curl -SL "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
+        -o /usr/libexec/docker/cli-plugins/docker-compose
+    chmod +x /usr/libexec/docker/cli-plugins/docker-compose
+fi
+
+# Fallback to legacy docker-compose binary (v1)
+if ! command -v docker-compose &>/dev/null; then
+    echo "Installing legacy Docker Compose binary as fallback..."
+    curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
+        -o /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+fi
 
 # Verify installation
 echo "Verifying Docker installation..."
 docker --version
-docker-compose --version
+if command -v docker-compose &>/dev/null; then
+    docker-compose --version
+elif docker compose version &>/dev/null; then
+    docker compose version
+else
+    echo "Docker Compose not found!"
+    exit 1
+fi
 
 # Add user to Docker group
 echo "Adding root user to Docker group..."
